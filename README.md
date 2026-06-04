@@ -1,6 +1,6 @@
 <div align="center">
 
-# PerDeCT Wave Analyzer
+# DSP Wave Analyzer
 ### Pulse-Doppler Signal Processing & Real-Time Cardiac Output Estimation
 
 *A FastAPI-powered clinical decision-support tool that processes raw IQ Doppler ultrasound recordings, extracts cardiac output via Kasai autocorrelation, and runs dual ML models for anomaly detection and pharmacological state classification.*
