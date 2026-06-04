@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PerDeCT Wave Analyzer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Intelligent Wave Analyzer</h1>
+        <p class="subtitle">Upload a raw wave file to isolate and filter out noise artifacts using PerDeCT Pipeline.</p>
+        
+        <div class="controls">
+            <div class="control-group">
+                <label for="fileInput">Wave File (.wav)</label>
+                <input type="file" id="fileInput" accept=".wav">
+            </div>
+            
+            <div class="control-group">
+                <label for="fmin">Filter Min Frequency (Hz)</label>
+                <input type="number" id="fmin" value="1500" step="1">
+            </div>
+            
+            <div class="control-group">
+                <label for="fmax">Filter Max Frequency (Hz)</label>
+                <input type="number" id="fmax" value="10000" step="1">
+            </div>
+            
+            <div class="control-group">
+                <label for="tmin">Start Time (s)</label>
+                <input type="number" id="tmin" value="0.0" step="0.1" min="0">
+            </div>
+
+            <div class="control-group">
+                <label for="tmax">End Time (s) [0 = Full]</label>
+                <input type="number" id="tmax" value="0.0" step="0.1" min="0">
+            </div>
+            
+            <button id="analyzeBtn" class="btn-analyze">
+                <span id="btnText">Analyze Signal</span>
+                <span id="loader" class="loader"></span>
+            </button>
+            <button id="downloadPdfBtn" class="btn-analyze" style="display: none; background: #10b981; text-align: center; border-radius: 12px; color: white; font-weight: 600; padding: 0 2rem; box-shadow: 0 4px 14px 0 rgba(16, 185, 129, 0.39); border: none; cursor: pointer;">⬇ Download PDF Report</button>
+        </div>
+
+        <div id="chartsSection" class="charts">
+            <div class="chart-container">
+                <div class="chart-title" style="padding-bottom: 30px;">Graph 1: Original Wave & Noise</div>
+                <div style="position: relative; height:340px; top: 30px; width:100%">
+                    <canvas id="chart1"></canvas>
+                </div>
+            </div>
+            <div class="chart-container">
+                <div class="chart-title" style="padding-bottom: 30px;">Graph 2: Clean Wave</div>
+                <div style="position: relative; height:340px; top: 30px; width:100%">
+                    <canvas id="chart2"></canvas>
+                </div>
+            </div>
+            <div class="chart-container">
+                <div class="chart-title" style="padding-bottom: 30px;">Graph 3: Clean Wave (Line Envelope)</div>
+                <div style="position: relative; height:340px; top: 30px; width:100%">
+                    <canvas id="chart3"></canvas>
+                </div>
+            </div>
+            <div class="chart-container" style="height: auto; min-height: 400px; display: flex; flex-direction: column;">
+                <div class="chart-title" style="position: relative; top: 0; left: 0; margin-bottom: 1rem;">Graph 4: Clean Wave Heatmap</div>
+                <div style="position: relative; width:100%; text-align: center; flex: 1; display: flex; align-items: center; justify-content: center;">
+                    <img id="spectrogramImg" src="" alt="Heatmap" style="max-width: 100%; border-radius: 8px; display: none;">
+                </div>
+            </div>
+            <div id="reportSection" class="chart-container" style="display: none; height: auto; min-height: 200px;">
+                <div class="chart-title" style="position: relative; margin-bottom: 1rem; top: 0; left: 0; color: #10b981;">Graph 5: AI Clinical Analysis Report</div>
+                <div id="reportContent" style="color: var(--text-main); line-height: 1.6; font-size: 1rem; white-space: pre-wrap; margin-top: 1rem;"></div>
+            </div>
+        </div>
+    </div>
+    <script src="/static/app.js"></script>
+</body>
+</html>

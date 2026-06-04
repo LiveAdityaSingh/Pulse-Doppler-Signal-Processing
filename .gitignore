@@ -1,0 +1,27 @@
+# ── Python ────────────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+
+# ── Large data & model artifacts ──────────────────────────────────────────────
+# Issue #11: Raw WAV files and pipeline output are too large for version control.
+# Store these in cloud storage (e.g. GCS / S3) or share via a separate data link.
+data/*.wav
+pipeline_output.csv
+
+# ── Generated static output ───────────────────────────────────────────────────
+# Issue #11/#14: Per-request artifacts and runtime logs should not be committed.
+static/CO_data_*.csv
+static/spec_*.png
+error.log
+*.log
+
+# ── Calibration output ────────────────────────────────────────────────────────
+calibration_curve.png
+
+# ── IDE / OS ──────────────────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.DS_Store
+Thumbs.db
