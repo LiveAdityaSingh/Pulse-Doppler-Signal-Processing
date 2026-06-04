@@ -73,7 +73,7 @@ async def lifespan(app: FastAPI):
     # (cleanup on shutdown if needed)
 
 
-app = FastAPI(title="PerDeCT Wave Analyzer", lifespan=lifespan)
+app = FastAPI(title="Cardiac Doppler Analyzer", lifespan=lifespan)
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
 
@@ -385,7 +385,7 @@ async def analyze_wave(
     cardiac_output  = lowpass(raw_cardiac_out, fs)
 
     timestamps = np.linspace(tmin, tmax, len(cardiac_output))
-    df = pd.DataFrame({'Time_s': timestamps, 'Raw_PerDeCT_CO': cardiac_output})
+    df = pd.DataFrame({'Time_s': timestamps, 'Raw_System_CO': cardiac_output})
 
     csv_filename = f"CO_data_{uuid.uuid4().hex[:8]}.csv"
     csv_path     = os.path.join("static", csv_filename)

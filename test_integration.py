@@ -4,7 +4,7 @@ import sys
 import time
 
 url = "http://localhost:8000/analyze"
-wav_file = os.path.join("data", "2026_02_10_14-46-34p1.wav")
+wav_file = os.path.join("data", "sample_1.wav")
 
 def test():
     if not os.path.exists(wav_file):

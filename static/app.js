@@ -57,7 +57,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         const element = document.getElementById('chartsSection');
                         const opt = {
                           margin:       [0.5, 0.5, 0.5, 0.5],
-                          filename:     'PerDeCT_Clinical_Report.pdf',
+                          filename:     'Clinical_Report.pdf',
                           image:        { type: 'jpeg', quality: 0.98 },
                           html2canvas:  { scale: 2, useCORS: true, backgroundColor: '#0f172a' },
                           jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' },

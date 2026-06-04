@@ -77,11 +77,11 @@ def train_isolation_forest():
               "Skipping IsolationForest retrain — existing model kept.")
         return
 
-    if 'Raw_PerDeCT_CO' not in df.columns:
-        print("  [WARN] 'Raw_PerDeCT_CO' column missing. Skipping.")
+    if 'Raw_System_CO' not in df.columns:
+        print("  [WARN] 'Raw_System_CO' column missing. Skipping.")
         return
 
-    co_data = df['Raw_PerDeCT_CO'].values
+    co_data = df['Raw_System_CO'].values
     dec     = max(1, len(co_data) // 100_000)
     co_sub  = co_data[::dec]
     wp      = max(10, 500 // dec)
@@ -230,7 +230,7 @@ def train_drug_classifier():
 
 if __name__ == "__main__":
     print("=" * 60)
-    print("  PerDeCT Model Training")
+    print("  System Model Training")
     print("=" * 60)
     train_isolation_forest()
     train_drug_classifier()

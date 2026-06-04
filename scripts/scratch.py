@@ -7,7 +7,7 @@ import numpy as np
 from dsp_utils import butter_bp
 from scipy.signal import butter, sosfiltfilt, filtfilt
 
-data, fs = sf.read('data/2026_02_10_14-46-34p1.wav', always_2d=True, dtype="float32")
+data, fs = sf.read('data/sample_1.wav', always_2d=True, dtype="float32")
 x = data[:, 0]
 f1, f2 = 50.0, 8000.0
 

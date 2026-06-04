@@ -1,4 +1,4 @@
-# HealTech PerDeCT Wave Analyzer
+# System Cardiac Doppler Analyzer
 ## Architecture & App Process Outline
 
 ### 1. Complete Code Structure

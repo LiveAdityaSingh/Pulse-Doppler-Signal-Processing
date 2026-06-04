@@ -1,5 +1,5 @@
 """
-PerDeCT-Core: Digital Signal Processing Utilities
+Core: Digital Signal Processing Utilities
 Includes core frequency extraction and Adaptive Noise Cancellation (ANC).
 """
 import soundfile as sf

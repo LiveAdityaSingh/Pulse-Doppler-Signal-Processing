@@ -99,7 +99,7 @@ def ascii_trend(co, buckets=50):
 
 def main():
     print(SEP)
-    print("  PerDeCT ML Verification -- Pig Health Data")
+    print("  System ML Verification -- Pig Health Data")
     print(SEP)
 
     # --- Load models ---------------------------------------------------------

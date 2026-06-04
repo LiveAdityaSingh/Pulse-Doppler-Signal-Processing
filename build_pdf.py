@@ -2,8 +2,8 @@ import os
 from fpdf import FPDF
 
 def generate_pdf():
-    md_path = "HealTech_Architecture_Report.md"
-    pdf_path = "HealTech_Architecture_Report.pdf"
+    md_path = "Architecture_Report.md"
+    pdf_path = "Architecture_Report.pdf"
     
     if not os.path.exists(md_path):
         print(f"Error: {md_path} not found.")

@@ -24,7 +24,7 @@ DRUG_CLASSES = [
 # Ground-truth registry
 # Keys must exactly match the filenames in the data/ folder
 DRUG_LABELS = {
-    "2026_02_10_14-46-34p1.wav": {
+    "sample_1.wav": {
         "start_time"   : "14:46:34",
         "duration_s"   : 60.01,
         "label"        : "Baseline",
@@ -35,7 +35,7 @@ DRUG_LABELS = {
                          "measured by Medistim. Noise (crosstalk from other probes).",
         "has_noise"    : True,
     },
-    "2026_02_10_14-55-19p1.wav": {
+    "sample_2.wav": {
         "start_time"   : "14:55:19",
         "duration_s"   : 60.01,
         "label"        : "Baseline",
@@ -46,7 +46,7 @@ DRUG_LABELS = {
                          "Noise (crosstalk from other probes).",
         "has_noise"    : True,
     },
-    "2026_02_10_15-25-08p1.wav": {
+    "sample_3.wav": {
         "start_time"   : "15:25:08",
         "duration_s"   : 60.01,
         "label"        : "Baseline",
@@ -57,7 +57,7 @@ DRUG_LABELS = {
                          "Noise (crosstalk from other probes).",
         "has_noise"    : True,
     },
-    "2026_02_10_15-42-07p1.wav": {
+    "sample_4.wav": {
         "start_time"   : "15:42:07",
         "duration_s"   : 57.194,
         "label"        : "Esmolol_HRSlow",
@@ -67,7 +67,7 @@ DRUG_LABELS = {
         "notes"        : "Start of Esmolol infusion. HR beginning to slow.",
         "has_noise"    : False,
     },
-    "2026_02_10_15-44-29p1.wav": {
+    "sample_5.wav": {
         "start_time"   : "15:44:29",
         "duration_s"   : 154.431,
         "label"        : "Esmolol_Arrhythmia",
@@ -78,7 +78,7 @@ DRUG_LABELS = {
                          "Noise (crosstalk from other probes).",
         "has_noise"    : True,
     },
-    "2026_02_10_15-58-15p1.wav": {
+    "sample_6.wav": {
         "start_time"   : "15:58:15",
         "duration_s"   : 103.445,
         "label"        : "Dobutamine_HighCO",
@@ -89,7 +89,7 @@ DRUG_LABELS = {
                          "Noise (crosstalk from other probes).",
         "has_noise"    : True,
     },
-    "2026_02_10_16-11-11p1.wav": {
+    "sample_7.wav": {
         "start_time"   : "16:11:11",
         "duration_s"   : 67.805,
         "label"        : "Esmolol_Arrhythmia",

@@ -32,7 +32,7 @@
 
 ## 1. Project Background
 
-**PerDeCT** (Peripheral Doppler Cardiac Telemetry) is a non-invasive cardiac output monitoring system built for the **HealTech Hackathon**. It replaces expensive gold-standard Medistim transit-time flow meters with a commodity Doppler ultrasound probe, a commodity ADC, and a Python DSP + ML stack.
+**System** (Peripheral Doppler Cardiac Telemetry) is a non-invasive cardiac output monitoring system built for the **research demonstration**. It replaces expensive gold-standard Medistim transit-time flow meters with a commodity Doppler ultrasound probe, a commodity ADC, and a Python DSP + ML stack.
 
 The system was validated against **7 pig cardiac recordings** captured during live pharmacological trials at a research facility, spanning normal baseline, beta-blocker (Esmolol), and inotrope (Dobutamine) interventions.
 
@@ -114,8 +114,8 @@ Pulse-Doppler-Signal-Processing/
 ├── drug_condition_model.pkl      # Trained RandomForest (~32 MB)
 ├── hypovolemia_model.pkl         # Trained IsolationForest (~1.2 MB)
 │
-├── HealTech_Architecture_Report.md   # Detailed architecture document
-├── HealTech_Architecture_Report.pdf  # PDF version
+├── Architecture_Report.md   # Detailed architecture document
+├── Architecture_Report.pdf  # PDF version
 ├── Flowchart.png                 # System flowchart
 ├── NotebookLM Mind Map.png       # Mind-map of the system
 │
@@ -129,13 +129,13 @@ Pulse-Doppler-Signal-Processing/
 │   └── style.css                 # Dark glassmorphism design system
 │
 └── data/                         # (git-ignored) Raw pig Doppler WAV recordings
-    ├── 2026_02_10_14-46-34p1.wav   # Baseline, 60s
-    ├── 2026_02_10_14-55-19p1.wav   # Baseline, 60s (HR=114 BPM)
-    ├── 2026_02_10_15-25-08p1.wav   # Baseline, 60s (HR=110 BPM)
-    ├── 2026_02_10_15-42-07p1.wav   # Esmolol_HRSlow, 57s
-    ├── 2026_02_10_15-44-29p1.wav   # Esmolol_Arrhythmia, 154s
-    ├── 2026_02_10_15-58-15p1.wav   # Dobutamine_HighCO, 103s
-    └── 2026_02_10_16-11-11p1.wav   # Esmolol_Arrhythmia, 68s
+    ├── sample_1.wav   # Baseline, 60s
+    ├── sample_2.wav   # Baseline, 60s (HR=114 BPM)
+    ├── sample_3.wav   # Baseline, 60s (HR=110 BPM)
+    ├── sample_4.wav   # Esmolol_HRSlow, 57s
+    ├── sample_5.wav   # Esmolol_Arrhythmia, 154s
+    ├── sample_6.wav   # Dobutamine_HighCO, 103s
+    └── sample_7.wav   # Esmolol_Arrhythmia, 68s
 ```
 
 **★ Key design principle:** `constants.py` and `dsp_utils.py` are the shared foundation. Every script (`app.py`, `train_model.py`, `verify_model.py`, `generate_calib.py`) imports from them — no duplicated physics constants or DSP logic.
@@ -287,13 +287,13 @@ return sosfiltfilt(sos, x)
 Because the dataset has only 7 labelled files, standard random train-test splits would leak signal across windows from the same file. We use **Leave-One-File-Out (LOFO)** cross-validation — each file is held out as a complete test set while the other 6 train the model.
 
 ```
-[PASS] 2026_02_10_14-46-34p1.wav   true=Baseline           pred=Baseline
-[PASS] 2026_02_10_14-55-19p1.wav   true=Baseline           pred=Baseline
-[PASS] 2026_02_10_15-25-08p1.wav   true=Baseline           pred=Baseline
-[PASS] 2026_02_10_15-42-07p1.wav   true=Esmolol_HRSlow     pred=Esmolol_HRSlow
-[PASS] 2026_02_10_15-44-29p1.wav   true=Esmolol_Arrhythmia pred=Esmolol_Arrhythmia
-[PASS] 2026_02_10_15-58-15p1.wav   true=Dobutamine_HighCO  pred=Dobutamine_HighCO
-[PASS] 2026_02_10_16-11-11p1.wav   true=Esmolol_Arrhythmia pred=Esmolol_Arrhythmia
+[PASS] sample_1.wav   true=Baseline           pred=Baseline
+[PASS] sample_2.wav   true=Baseline           pred=Baseline
+[PASS] sample_3.wav   true=Baseline           pred=Baseline
+[PASS] sample_4.wav   true=Esmolol_HRSlow     pred=Esmolol_HRSlow
+[PASS] sample_5.wav   true=Esmolol_Arrhythmia pred=Esmolol_Arrhythmia
+[PASS] sample_6.wav   true=Dobutamine_HighCO  pred=Dobutamine_HighCO
+[PASS] sample_7.wav   true=Esmolol_Arrhythmia pred=Esmolol_Arrhythmia
 
 LOFO accuracy (file-level): 7/7 (100%)
 ```
@@ -323,10 +323,10 @@ The only file with a ground-truth Medistim CO reference is the first Baseline re
 | Metric | Value |
 |--------|-------|
 | Medistim reference CO | **4.8 L/min** |
-| PerDeCT raw CO (mean) | ~3.2 – 5.6 L/min (varies with probe angle) |
+| System raw CO (mean) | ~3.2 – 5.6 L/min (varies with probe angle) |
 | Linear calibration R² | 0.87 (across 7 files with synthesised refs) |
 
-The calibration script (`scripts/generate_calib.py`) generates a Medistim-vs-PerDeCT scatter plot with fitted linear regression, supporting offline calibration to a gold standard.
+The calibration script (`scripts/generate_calib.py`) generates a Medistim-vs-System scatter plot with fitted linear regression, supporting offline calibration to a gold standard.
 
 ### 6.4 HR Estimation Accuracy
 
@@ -480,7 +480,7 @@ python test_integration.py
 python scripts/generate_calib.py
 ```
 
-Saves `calibration_curve.png` — a Medistim-vs-PerDeCT R² scatter plot.
+Saves `calibration_curve.png` — a Medistim-vs-System R² scatter plot.
 
 ---
 
@@ -533,12 +533,11 @@ STATIC_KEEP_SPEC = 10   # newest spectrograms to keep
 
 ## Acknowledgements
 
-- **Hackathon:** HealTech 2026
 - **Data:** Pig cardiac Doppler recordings captured during live pharmacological trials
 - **DSP reference:** Kasai C. et al., *"Real-time two-dimensional blood flow imaging using an autocorrelation technique"*, IEEE TUFFC, 1985
 
 ---
 
 <div align="center">
-<sub>Built with ❤️ for HealTech — Intelligent cardiac monitoring through Doppler signal processing</sub>
+<sub>Built with ❤️ — Intelligent cardiac monitoring through Doppler signal processing</sub>
 </div>

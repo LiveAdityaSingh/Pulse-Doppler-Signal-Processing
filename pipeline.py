@@ -1,5 +1,5 @@
 """
-PerDeCT-Core: Main Pipeline
+Core: Main Pipeline
 Executes Tasks 1-4: Processing, Alignment, Calibration, and Motion Cancellation.
 """
 import numpy as np
@@ -8,7 +8,7 @@ import soundfile as sf
 from sklearn.linear_model import LinearRegression
 from dsp_utils import butter_bp, inst_freq_hilbert, kasai_fd, velocity_from_fd, nlms_adaptive_filter
 
-class PerDeCT_Pipeline:
+class System_Pipeline:
     def __init__(self, fs=48000, fmin=1500, fmax=10000):
         self.fs = fs
         self.fmin = fmin
@@ -42,7 +42,7 @@ class PerDeCT_Pipeline:
         cross_sectional_area = 4.0 # cm^2 (example)
         cardiac_output = velocity * cross_sectional_area * 6.0
         
-        return pd.DataFrame({'Time_s': timestamps, 'Raw_PerDeCT_CO': cardiac_output})
+        return pd.DataFrame({'Time_s': timestamps, 'Raw_System_CO': cardiac_output})
 
     def temporal_alignment(self, high_res_df, reference_df):
         """Task 2: Align 100ms outputs with 10s reference averages."""
@@ -51,7 +51,7 @@ class PerDeCT_Pipeline:
         high_res_df['Time'] = pd.to_timedelta(high_res_df['Time_s'], unit='s')
         high_res_df.set_index('Time', inplace=True)
         
-        # Downsample PerDeCT data to 10-second averages to match reference
+        # Downsample System data to 10-second averages to match reference
         aligned_df = high_res_df.resample('10S').mean()
         
         # Merge with reference (assuming reference_df has 10S index)
@@ -62,23 +62,23 @@ class PerDeCT_Pipeline:
         """Task 3: Linear regression calibration against Medistim."""
         print("Calibrating against Gold Standard...")
         # Drop NaNs where reference data is missing
-        clean_df = aligned_df.dropna(subset=['Raw_PerDeCT_CO', medistim_col])
+        clean_df = aligned_df.dropna(subset=['Raw_System_CO', medistim_col])
         
-        X = clean_df[['Raw_PerDeCT_CO']].values
+        X = clean_df[['Raw_System_CO']].values
         y = clean_df[medistim_col].values
         
         reg = LinearRegression().fit(X, y)
         m, b = reg.coef_[0], reg.intercept_
-        print(f"Calibration Formula: True_CO = {m:.4f} * PerDeCT_CO + {b:.4f}")
+        print(f"Calibration Formula: True_CO = {m:.4f} * System_CO + {b:.4f}")
         
-        aligned_df['Calibrated_CO'] = (aligned_df['Raw_PerDeCT_CO'] * m) + b
+        aligned_df['Calibrated_CO'] = (aligned_df['Raw_System_CO'] * m) + b
         return aligned_df, reg
 
 if __name__ == "__main__":
-    print("Initialize PerDeCT Pipeline...")
+    print("Initialize System Pipeline...")
     # Example Execution Flow:
-    pipeline = PerDeCT_Pipeline()
-    df = pipeline.process_audio(r'data\2026_02_10_14-46-34p1.wav')
+    pipeline = System_Pipeline()
+    df = pipeline.process_audio(r'data\sample_1.wav')
     print("Saving the results to 'pipeline_output.csv'...")
     df.to_csv('pipeline_output.csv', index=False)
     print("Saved!")
